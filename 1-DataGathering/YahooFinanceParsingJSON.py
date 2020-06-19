@@ -20,12 +20,16 @@ for ticker in all_tickers:
         # You can ask for weekly or yearly data as well
         json_obj = yahoo_financials.get_historical_price_data(beg_date, end_date, "daily")
         prices = json_obj[ticker]['prices']
-        temp = pd.DataFrame(prices)[["formatted_date", "adjclose"]]
+        temp = pd.DataFrame(prices)[["formatted_date", "adjclose", "open", "high", "low"]]
+        # temp = pd.DataFrame(prices)[["formatted_date", "adjclose"]]
         temp.set_index("formatted_date", inplace=True)
         # we do not look for the duplicated values -- just get rid of them
         temp2 = temp[~temp.index.duplicated(keep='first')]
         close_prices[ticker] = temp2["adjclose"]
-
+        file_name_json = ticker + '.json'
+        file_name_csv = ticker + '.csv'
+        temp2.to_json(file_name_json)
+        temp2.to_csv(file_name_csv)
     except:
         print(ticker, " :failed to fetch data...retrying")
         continue
