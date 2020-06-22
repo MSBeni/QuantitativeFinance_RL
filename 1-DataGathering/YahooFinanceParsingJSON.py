@@ -6,6 +6,7 @@ import errno
 from yahoofinancials import YahooFinancials
 import datetime
 
+
 def ensure_directory_exists(base_directory):
     """
     Makes a directory if it does not exist
@@ -15,6 +16,7 @@ def ensure_directory_exists(base_directory):
     except OSError as ex:
         if ex.errno != errno.EEXIST:
             raise ex
+
 
 all_tickers = ["AAPL", "MSFT", "CSCO", "AMZN", "INTC"]
 
