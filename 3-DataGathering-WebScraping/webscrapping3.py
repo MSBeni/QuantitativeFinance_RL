@@ -16,7 +16,10 @@ for ticker in tickers:
     for t in tabl:
         rows = t.find_all("div", {"class": "rw-expnded"})
         for row in rows:
-            temp_dir[row.get_text(separator='|').split("|")[0]] = row.get_text(separator='|').split("|")[1]
+            temp_dir[row.get_text(separator='|').split("|")[0]] = list(row.get_text(separator='|').split("|")[i]
+                                                                       .replace(',', '') for i
+                                                                       in range(1, len(row.get_text(separator='|')
+                                                                                       .split("|"))))
 
     # getting income statement data from yahoo finance for the given ticker
     url = 'https://in.finance.yahoo.com/quote/' + ticker + '/financials?p=' + ticker
@@ -27,7 +30,10 @@ for ticker in tickers:
     for t in tabl:
         rows = t.find_all("div", {"class": "rw-expnded"})
         for row in rows:
-            temp_dir[row.get_text(separator='|').split("|")[0]] = row.get_text(separator='|').split("|")[1]
+            temp_dir[row.get_text(separator='|').split("|")[0]] = list(row.get_text(separator='|').split("|")[i]
+                                                                       .replace(',', '') for i
+                                                                       in range(1, len(row.get_text(separator='|')
+                                                                                       .split("|"))))
 
     # getting cashflow statement data from yahoo finance for the given ticker
     url = 'https://in.finance.yahoo.com/quote/' + ticker + '/cash-flow?p=' + ticker
@@ -38,24 +44,13 @@ for ticker in tickers:
     for t in tabl:
         rows = t.find_all("div", {"class": "rw-expnded"})
         for row in rows:
-            temp_dir[row.get_text(separator='|').split("|")[0]] = row.get_text(separator='|').split("|")[1]
+            temp_dir[row.get_text(separator='|').split("|")[0]] = list(row.get_text(separator='|').split("|")[i]
+                                                                       .replace(',', '') for i
+                                                                       in range(1, len(row.get_text(separator='|')
+                                                                                       .split("|"))))
 
-    # getting key statistics data from yahoo finance for the given ticker
-    url = 'https://in.finance.yahoo.com/quote/' + ticker + '/key-statistics?p=' + ticker
-    page = requests.get(url)
-    page_content = page.content
-    soup = BeautifulSoup(page_content, 'html.parser')
-    tabl = soup.findAll("table", {"class": "W(100%) Bdcl(c) Mt(10px) "})
-    for t in tabl:
-        rows = t.find_all("tr")
-        for row in rows:
-            if len(row.get_text(separator='|').split("|")[0:2]) > 0:
-                temp_dir[row.get_text(separator='|').split("|")[0]] = row.get_text(separator='|').split("|")[-1]
-
-                # combining all extracted information with the corresponding ticker
     financial_dir[ticker] = temp_dir
 
-# storing information in pandas dataframe
 combined_financials = pd.DataFrame(financial_dir)
 # print(combined_financials)
 tickers = combined_financials.columns
