@@ -1,5 +1,6 @@
 import pandas_datareader.data as pdr
 import datetime
+import matplotlib.pyplot as plt
 
 # Download historical data for required stocks
 ticker = "MSFT"
@@ -19,5 +20,21 @@ def atr(dataframe, n):
     return df2
 
 
-print(atr(ohlcv, 20))
+# print(atr(ohlcv, 20))
 
+
+def bollbnd(dataframe, n):
+    """function to calculate Bollinger Band"""
+    df = dataframe.copy()
+    df["MA"] = df['Adj Close'].rolling(n).mean()
+    df["BB_up"] = df["MA"] + 2*df["MA"].rolling(n).std()
+    df["BB_dn"] = df["MA"] - 2*df["MA"].rolling(n).std()
+    df["BB_width"] = df["BB_up"] - df["BB_dn"]
+    df.dropna(inplace=True)
+    return df
+
+
+# Visualizing Bollinger Band of the stocks for last 100 data points
+bollbnd(ohlcv, 20).iloc[-100:, [-4, -3, -2]].plot(title="Bollinger Band")
+# atr(ohlcv, 20)['ATR'].plot(title="ATR")
+plt.show()
