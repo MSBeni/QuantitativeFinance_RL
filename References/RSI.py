@@ -6,7 +6,7 @@ import datetime
 
 # Download historical data for required stocks
 ticker = "AAPL"
-ohlcv = pdr.get_data_yahoo(ticker,datetime.date.today()-datetime.timedelta(364),datetime.date.today())
+ohlcv = pdr.get_data_yahoo(ticker, datetime.date.today()-datetime.timedelta(364), datetime.date.today())
 
 
 def rsi(dataframe, n):
