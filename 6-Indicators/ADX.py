@@ -70,3 +70,5 @@ def adx(df, n):
     df2['ADX'] = np.array(ADX)
     return df2['ADX']
 
+
+print(adx(ohlcv, 14))
