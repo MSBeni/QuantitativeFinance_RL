@@ -52,4 +52,4 @@ def rsi_noloop(df, n):
     return 100 - 100 / (1 + rs)
 
 
-print(rsi(ohlcv, 12))
+# print(rsi(ohlcv, 12))

@@ -71,4 +71,3 @@ def adx(df, n):
     return df2['ADX']
 
 
-print(adx(ohlcv, 14))

@@ -34,7 +34,7 @@ def bollbnd(dataframe, n):
     return df
 
 
-# Visualizing Bollinger Band of the stocks for last 100 data points
-bollbnd(ohlcv, 20).iloc[-100:, [-4, -3, -2]].plot(title="Bollinger Band")
-# atr(ohlcv, 20)['ATR'].plot(title="ATR")
-plt.show()
+# # Visualizing Bollinger Band of the stocks for last 100 data points
+# bollbnd(ohlcv, 20).iloc[-100:, [-4, -3, -2]].plot(title="Bollinger Band")
+# # atr(ohlcv, 20)['ATR'].plot(title="ATR")
+# plt.show()

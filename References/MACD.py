@@ -26,9 +26,9 @@ def macd(dataframe, a, b, c):
     _df["Signal"] = _df["MACD"].ewm(span=c, min_periods=c).mean()
     _df.dropna(inplace=True)
     return _df
-
-ticker = 'MSFT'
-ohlcv = pdr.get_data_yahoo(ticker, datetime.date.today()-datetime.timedelta(1025), datetime.date.today())
+#
+# ticker = 'MSFT'
+# ohlcv = pdr.get_data_yahoo(ticker, datetime.date.today()-datetime.timedelta(1025), datetime.date.today())
 
 
 """
@@ -39,10 +39,10 @@ Doing the same steps via calling the macd function:
     df["MACD"] = df["MA_Fast"] - df["MA_Slow"]
     df["Signal"] = df["MACD"].ewm(span=9, min_periods=9).mean()
 """
-df = macd(ohlcv, 12, 26, 9)
-
-ensure_directory_exists('data')
-df.to_csv("./data/MSFT-MACDData.csv")
-
-plt.plot(df.iloc[:, [5, 8, 9]])
-plt.show()
+# df = macd(ohlcv, 12, 26, 9)
+#
+# ensure_directory_exists('data')
+# df.to_csv("./data/MSFT-MACDData.csv")
+#
+# plt.plot(df.iloc[:, [5, 8, 9]])
+# plt.show()
