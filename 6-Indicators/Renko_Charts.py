@@ -7,9 +7,9 @@ from References.ATR_BollingerBand import atr
 # Download historical data for required stocks
 ticker = "AAPL"
 ohlcv = pdr.get_data_yahoo(ticker, datetime.date.today()-datetime.timedelta(364), datetime.date.today())
-df = ohlcv.copy()
 
-def renko_DF(dataframe):
+
+def renko_df(dataframe):
     """function to convert ohlc data into renko bricks"""
     df_ = dataframe.copy()
     df_.reset_index(inplace=True)
@@ -19,6 +19,8 @@ def renko_DF(dataframe):
     df2 = Renko(df_)
     df2.brick_size = round(atr(dataframe, 120)["ATR"][-1], 0)
     # renko_df = df2.get_bricks() # if get_bricks() does not work try using get_ohlc_data() instead
-    renko_df = df2.get_ohlc_data()
-    return renko_df
+    RENKO_df = df2.get_ohlc_data()
+    return RENKO_df
 
+
+print(renko_df(ohlcv))
