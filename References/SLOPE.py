@@ -26,11 +26,3 @@ def slope(ser, n):
     slope_angle = (np.rad2deg(np.arctan(np.array(slopes))))
     return np.array(slope_angle)
 
-
-# print and plot the results
-print(slope(ohlcv["Adj Close"], 5))
-df = ohlcv.copy()
-df["slope"] = slope(ohlcv["Adj Close"], 5)
-
-df.iloc[:, [4, 6]].plot(subplots=True, layout=(2, 1))
-plt.show()
