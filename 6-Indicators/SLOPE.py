@@ -3,7 +3,7 @@ import pandas_datareader.data as pdr
 import numpy as np
 import datetime
 import statsmodels.api as sm
-
+import matplotlib.pyplot as plt
 
 # Download historical data for required stocks
 ticker = "AAPL"
@@ -27,3 +27,10 @@ def slope(ser, n):
     return np.array(slope_angle)
 
 
+# print and plot the results
+print(slope(ohlcv["Adj Close"], 5))
+df = ohlcv.copy()
+df["slope"] = slope(ohlcv["Adj Close"], 5)
+
+df.iloc[:, [4, 6]].plot(subplots=True, layout=(2, 1))
+plt.show()
