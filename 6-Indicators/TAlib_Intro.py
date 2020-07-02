@@ -49,5 +49,5 @@ for ticker in tickers:
                                            ohlc_dict[ticker]["Low"],
                                            timeperiod=14)
 
-
-print(ohlc_dict[ticker]["ADX"])
+for ticker in tickers:
+    print(ohlc_dict[ticker][["3I", "Beta", "ADX"]])
