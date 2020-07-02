@@ -26,4 +26,28 @@ while len(tickers) != 0 and attempt <= 100:
             continue
     attempt += 1
 
-print(ohlc_tech)
+# print(ohlc_tech)
+
+tickers = ohlc_tech.keys()  # redefine tickers variable after removing any tickers with corrupted data
+ohlc_dict = copy.deepcopy(ohlc_tech)  # create a copy of extracted data
+
+# Apply talib functions on each dataframe - refer documentation at https://mrjbq7.github.io/ta-lib/doc_index.html
+for ticker in tickers:
+    # Calculate momentum indicators (e.g. MACD, ADX, RSI etc.) using talib
+    ohlc_dict[ticker]["ADX"] = talib.ADX(ohlc_dict[ticker]["High"],
+                                         ohlc_dict[ticker]["Low"],
+                                         ohlc_dict[ticker]["Adj Close"],
+                                         timeperiod=14)
+    # Identify chart patterns (e.g. two crows, three crows, three inside, engulging pattern etc.)
+    ohlc_dict[ticker]["3I"] = talib.CDL3WHITESOLDIERS(ohlc_dict[ticker]["Open"],
+                                                      ohlc_dict[ticker]["High"],
+                                                      ohlc_dict[ticker]["Low"],
+                                                      ohlc_dict[ticker]["Adj Close"])
+
+    # Statistical functions (e.g. beta, correlation etc.)
+    ohlc_dict[ticker]["Beta"] = talib.BETA(ohlc_dict[ticker]["High"],
+                                           ohlc_dict[ticker]["Low"],
+                                           timeperiod=14)
+
+
+print(ohlc_dict[ticker]["ADX"])
