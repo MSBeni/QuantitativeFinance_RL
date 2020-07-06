@@ -24,8 +24,16 @@ def volatility(dataframe):
     return vol
 
 
-def sharpe(dataframe, risk_free_rate):
-    df = dataframe.copy()
+def sharpe(df_, risk_free_rate):
+    df = df_.copy()
     Sharperate = (cagr(df) - risk_free_rate)/volatility(df)
     return Sharperate
 
+
+def sortino(df, rf):
+    """function to calculate sortino ratio ; rf is the risk free rate"""
+    df = df.copy()
+    df["daily_ret"] = df["Adj Close"].pct_change()
+    neg_vol = df[df["daily_ret"] < 0]["daily_ret"].std() * np.sqrt(252)
+    sr = (cagr(df) - rf)/neg_vol
+    return sr
