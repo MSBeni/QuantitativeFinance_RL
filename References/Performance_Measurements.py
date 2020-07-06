@@ -8,7 +8,7 @@ import numpy as np
 # SnP["Adj Close"].plot()
 
 
-def caqr(df):
+def cagr(df):
     DataFrame = df.copy()
     DataFrame["daily return"] = DataFrame["Adj Close"].pct_change()
     DataFrame["Cumulative Return"] = (1 + DataFrame["daily return"]).cumprod()
