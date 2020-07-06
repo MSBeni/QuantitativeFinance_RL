@@ -23,3 +23,9 @@ def volatility(dataframe):
     vol = DF["daily return"].std() * np.sqrt(252)
     return vol
 
+
+def sharpe(dataframe, risk_free_rate):
+    df = dataframe.copy()
+    Sharperate = (cagr(df) - risk_free_rate)/volatility(df)
+    return Sharperate
+
