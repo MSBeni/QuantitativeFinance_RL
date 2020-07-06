@@ -37,3 +37,23 @@ def sortino(df, rf):
     neg_vol = df[df["daily_ret"] < 0]["daily_ret"].std() * np.sqrt(252)
     sr = (cagr(df) - rf)/neg_vol
     return sr
+
+
+def max_dd(df):
+    """function to calculate max drawdown"""
+    df = df.copy()
+    df["daily_ret"] = df["Adj Close"].pct_change()
+    df["cum_return"] = (1 + df["daily_ret"]).cumprod()
+    df["cum_roll_max"] = df["cum_return"].cummax()
+    df["drawdown"] = df["cum_roll_max"] - df["cum_return"]
+    df["drawdown_pct"] = df["drawdown"] / df["cum_roll_max"]
+    max_dd = df["drawdown_pct"].max()
+    return max_dd
+
+
+def calmar(df):
+    """function to calculate calmar ratio"""
+    df = df.copy()
+    clmr = cagr(df) / max_dd(df)
+    return clmr
+
