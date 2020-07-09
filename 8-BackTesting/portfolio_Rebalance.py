@@ -70,15 +70,17 @@ tickers = ohlc_mon.keys()  # redefine tickers variable after removing any ticker
 ohlc_dict = copy.deepcopy(ohlc_mon)
 return_df = pd.DataFrame()
 for ticker in tickers:
-    print("calculating monthly return for ",ticker)
+    print("calculating monthly return for ", ticker)
     ohlc_dict[ticker]["mon_ret"] = ohlc_dict[ticker]["Adj Close"].pct_change()
     return_df[ticker] = ohlc_dict[ticker]["mon_ret"]
+
+# dataframe = return_df.to_csv("return_dataframe.csv")
 
 
 # function to calculate portfolio return iteratively
 def pflio(dataframe_, m, x):
     """Returns cumulative portfolio return
-    DF = dataframe with monthly return info for all stocks
+    dataframe_ = dataframe with monthly return info for all stocks
     m = number of stock in the portfolio
     x = number of underperforming stocks to be removed from portfolio monthly"""
     df = dataframe_.copy()
@@ -103,7 +105,7 @@ sharpe(pflio(return_df, 6, 3), 0.025)
 max_dd(pflio(return_df, 6, 3))
 
 #calculating KPIs for Index buy and hold strategy over the same period
-DJI = pdr.get_data_yahoo("^DJI",datetime.date.today()-datetime.timedelta(1900),datetime.date.today(),interval='m')
+DJI = pdr.get_data_yahoo("^DJI", datetime.date.today()-datetime.timedelta(1900), datetime.date.today(), interval='m')
 DJI["mon_ret"] = DJI["Adj Close"].pct_change()
 cagr(DJI)
 sharpe(DJI, 0.025)
