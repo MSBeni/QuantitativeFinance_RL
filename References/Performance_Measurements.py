@@ -8,19 +8,19 @@ import numpy as np
 # SnP["Adj Close"].plot()
 
 
-def cagr(df):
+def cagr(df, days=252):
     DataFrame = df.copy()
     DataFrame["daily return"] = DataFrame["Adj Close"].pct_change()
     DataFrame["Cumulative Return"] = (1 + DataFrame["daily return"]).cumprod()
-    n = len(DataFrame)/252   # 252 is the number of total working days in a year
+    n = len(DataFrame)/days   # 252 is the number of total working days in a year
     CAQR = (DataFrame["Cumulative Return"][-1])**(1/n) - 1
     return CAQR
 
 
-def volatility(dataframe):
+def volatility(dataframe, days=252):
     DF = dataframe.copy()
     DF["daily return"] = DF["Adj Close"].pct_change()
-    vol = DF["daily return"].std() * np.sqrt(252)
+    vol = DF["daily return"].std() * np.sqrt(days)
     return vol
 
 
