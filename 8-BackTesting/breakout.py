@@ -2,11 +2,11 @@ import numpy as np
 import pandas as pd
 from alpha_vantage.timeseries import TimeSeries
 import copy
+import matplotlib.pyplot as plt
 
-
-def ATR(DF, n):
-    "function to calculate True Range and Average True Range"
-    df = DF.copy()
+def atr(dataframe, n):
+    """function to calculate True Range and Average True Range"""
+    df = dataframe.copy()
     df['H-L'] = abs(df['High'] - df['Low'])
     df['H-PC'] = abs(df['High'] - df['Adj Close'].shift(1))
     df['L-PC'] = abs(df['Low'] - df['Adj Close'].shift(1))
@@ -59,15 +59,31 @@ ohlc_intraday = {}  # directory with ohlc value for each stock
 key_path = "/home/i-sip_iot/s_vv/AlphaVantage.txt"
 ts = TimeSeries(key=open(key_path, 'r').read(), output_format='pandas')
 
-################################Backtesting####################################
+attempt = 0  # initializing passthrough variable
+drop = []  # initializing list to store tickers whose close price was successfully extracted
+while len(tickers) != 0 and attempt <= 5:
+    tickers = [j for j in tickers if j not in drop]
+    for i in range(len(tickers)):
+        try:
+            ohlc_intraday[tickers[i]] = ts.get_intraday(symbol=tickers[i], interval='5min', outputsize='full')[0]
+            ohlc_intraday[tickers[i]].columns = ["Open", "High", "Low", "Adj Close", "Volume"]
+            drop.append(tickers[i])
+        except:
+            print(tickers[i], " :failed to fetch data...retrying")
+            continue
+    attempt += 1
 
+tickers = ohlc_intraday.keys()  # redefine tickers variable after removing any tickers with corrupted data
+
+
+################################Backtesting####################################
 # calculating ATR and rolling max price for each stock and consolidating this info by stock in a separate dataframe
 ohlc_dict = copy.deepcopy(ohlc_intraday)
 tickers_signal = {}
 tickers_ret = {}
 for ticker in tickers:
     print("calculating ATR and rolling max price for ", ticker)
-    ohlc_dict[ticker]["ATR"] = ATR(ohlc_dict[ticker], 20)
+    ohlc_dict[ticker]["ATR"] = atr(ohlc_dict[ticker], 20)
     ohlc_dict[ticker]["roll_max_cp"] = ohlc_dict[ticker]["High"].rolling(20).max()
     ohlc_dict[ticker]["roll_min_cp"] = ohlc_dict[ticker]["Low"].rolling(20).min()
     ohlc_dict[ticker]["roll_max_vol"] = ohlc_dict[ticker]["Volume"].rolling(20).max()
@@ -132,13 +148,14 @@ max_dd(strategy_df)
 # vizualization of strategy return
 (1 + strategy_df["ret"]).cumprod().plot()
 
+# print(ohlc_dict)
 # calculating individual stock's KPIs
-cagr = {}
+_cagr_ = {}
 sharpe_ratios = {}
 max_drawdown = {}
 for ticker in tickers:
     print("calculating KPIs for ", ticker)
-    cagr[ticker] = cagr(ohlc_dict[ticker])
+    _cagr_[ticker] = cagr(ohlc_dict[ticker])
     sharpe_ratios[ticker] = sharpe(ohlc_dict[ticker], 0.025)
     max_drawdown[ticker] = max_dd(ohlc_dict[ticker])
 
@@ -146,3 +163,4 @@ KPI_df = pd.DataFrame([cagr, sharpe_ratios, max_drawdown], index=["Return", "Sha
 KPI_df.T
 
 
+plt.show()
