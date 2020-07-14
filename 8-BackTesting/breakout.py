@@ -76,7 +76,7 @@ while len(tickers) != 0 and attempt <= 5:
 tickers = ohlc_intraday.keys()  # redefine tickers variable after removing any tickers with corrupted data
 
 
-################################Backtesting####################################
+# ###############################Backtesting####################################
 # calculating ATR and rolling max price for each stock and consolidating this info by stock in a separate dataframe
 ohlc_dict = copy.deepcopy(ohlc_intraday)
 tickers_signal = {}
