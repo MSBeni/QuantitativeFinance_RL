@@ -1,9 +1,29 @@
+# =============================================================================
+# Backtesting strategy - III : combining renko with obv indicator
+# Author : Mayank Rasu
+
+# Please report bug/issues in the Q&A section
+# =============================================================================
+
 import numpy as np
 import pandas as pd
 from stocktrends import Renko
 import statsmodels.api as sm
 from alpha_vantage.timeseries import TimeSeries
 import copy
+import matplotlib.pyplot as plt
+
+def atr(dataframe, n):
+    """function to calculate True Range and Average True Range"""
+    df = dataframe.copy()
+    df['H-L'] = abs(df['High'] - df['Low'])
+    df['H-PC'] = abs(df['High'] - df['Adj Close'].shift(1))
+    df['L-PC'] = abs(df['Low'] - df['Adj Close'].shift(1))
+    df['TR'] = df[['H-L', 'H-PC', 'L-PC']].max(axis=1, skipna=False)
+    df['ATR'] = df['TR'].rolling(n).mean()
+    # df['ATR'] = df['TR'].ewm(span=n,adjust=False,min_periods=n).mean()
+    df2 = df.drop(['H-L', 'H-PC', 'L-PC'], axis=1)
+    return df2
 
 
 def slope(ser, n):
@@ -23,7 +43,7 @@ def slope(ser, n):
 
 
 def renko_DF(dataframe):
-    """function to convert ohlc data into renko bricks"""
+    "function to convert ohlc data into renko bricks"
     df = dataframe.copy()
     df.reset_index(inplace=True)
     df = df.iloc[:, [0, 1, 2, 3, 4, 5]]
@@ -51,19 +71,6 @@ def obv(dataframe):
     df['vol_adj'] = df['Volume'] * df['direction']
     df['obv'] = df['vol_adj'].cumsum()
     return df['obv']
-
-
-def atr(dataframe, n):
-    """function to calculate True Range and Average True Range"""
-    df = dataframe.copy()
-    df['H-L'] = abs(df['High'] - df['Low'])
-    df['H-PC'] = abs(df['High'] - df['Adj Close'].shift(1))
-    df['L-PC'] = abs(df['Low'] - df['Adj Close'].shift(1))
-    df['TR'] = df[['H-L', 'H-PC', 'L-PC']].max(axis=1, skipna=False)
-    df['ATR'] = df['TR'].rolling(n).mean()
-    # df['ATR'] = df['TR'].ewm(span=n,adjust=False,min_periods=n).mean()
-    df2 = df.drop(['H-L', 'H-PC', 'L-PC'], axis=1)
-    return df2['ATR']
 
 
 def cagr(dataframe):
@@ -101,10 +108,11 @@ def max_dd(dataframe):
 
 
 # Download historical data for DJI constituent stocks
+
 tickers = ["MSFT", "AAPL", "FB", "AMZN", "INTC", "CSCO", "VZ", "IBM", "QCOM", "LYFT"]
 
 ohlc_intraday = {}  # directory with ohlc value for each stock
-key_path = "D:\\Udemy\\Quantitative Investing Using Python\\1_Getting Data\\AlphaVantage\\key.txt"
+key_path = "/home/i-sip_iot/s_vv/AlphaVantage.txt"
 ts = TimeSeries(key=open(key_path, 'r').read(), output_format='pandas')
 
 attempt = 0  # initializing passthrough variable
@@ -123,4 +131,76 @@ while len(tickers) != 0 and attempt <= 300:
 
 tickers = ohlc_intraday.keys()  # redefine tickers variable after removing any tickers with corrupted data
 
-# ###############################Backtesting####################################
+################################Backtesting####################################
+
+# Merging renko df with original ohlc df
+ohlc_renko = {}
+df = copy.deepcopy(ohlc_intraday)
+tickers_signal = {}
+tickers_ret = {}
+for ticker in tickers:
+    print("merging for ", ticker)
+    renko = renko_DF(df[ticker])
+    renko.columns = ["Date", "open", "high", "low", "close", "uptrend", "bar_num"]
+    df[ticker]["Date"] = df[ticker].index
+    ohlc_renko[ticker] = df[ticker].merge(renko.loc[:, ["Date", "bar_num"]], how="outer", on="Date")
+    ohlc_renko[ticker]["bar_num"].fillna(method='ffill', inplace=True)
+    ohlc_renko[ticker]["obv"] = obv(ohlc_renko[ticker])
+    ohlc_renko[ticker]["obv_slope"] = slope(ohlc_renko[ticker]["obv"], 5)
+    tickers_signal[ticker] = ""
+    tickers_ret[ticker] = []
+
+# Identifying signals and calculating daily return
+for ticker in tickers:
+    print("calculating daily returns for ", ticker)
+    for i in range(len(ohlc_intraday[ticker])):
+        if tickers_signal[ticker] == "":
+            tickers_ret[ticker].append(0)
+            if ohlc_renko[ticker]["bar_num"][i] >= 2 and ohlc_renko[ticker]["obv_slope"][i] > 30:
+                tickers_signal[ticker] = "Buy"
+            elif ohlc_renko[ticker]["bar_num"][i] <= -2 and ohlc_renko[ticker]["obv_slope"][i] < -30:
+                tickers_signal[ticker] = "Sell"
+
+        elif tickers_signal[ticker] == "Buy":
+            tickers_ret[ticker].append(
+                (ohlc_renko[ticker]["Adj Close"][i] / ohlc_renko[ticker]["Adj Close"][i - 1]) - 1)
+            if ohlc_renko[ticker]["bar_num"][i] <= -2 and ohlc_renko[ticker]["obv_slope"][i] < -30:
+                tickers_signal[ticker] = "Sell"
+            elif ohlc_renko[ticker]["bar_num"][i] < 2:
+                tickers_signal[ticker] = ""
+
+        elif tickers_signal[ticker] == "Sell":
+            tickers_ret[ticker].append(
+                (ohlc_renko[ticker]["Adj Close"][i - 1] / ohlc_renko[ticker]["Adj Close"][i]) - 1)
+            if ohlc_renko[ticker]["bar_num"][i] >= 2 and ohlc_renko[ticker]["obv_slope"][i] > 30:
+                tickers_signal[ticker] = "Buy"
+            elif ohlc_renko[ticker]["bar_num"][i] > -2:
+                tickers_signal[ticker] = ""
+    ohlc_renko[ticker]["ret"] = np.array(tickers_ret[ticker])
+
+# calculating overall strategy's KPIs
+strategy_df = pd.DataFrame()
+for ticker in tickers:
+    strategy_df[ticker] = ohlc_renko[ticker]["ret"]
+strategy_df["ret"] = strategy_df.mean(axis=1)
+cagr(strategy_df)
+sharpe(strategy_df, 0.025)
+max_dd(strategy_df)
+
+# visualizing strategy returns
+(1 + strategy_df["ret"]).cumprod().plot()
+
+# calculating individual stock's KPIs
+_cagr_ = {}
+sharpe_ratios = {}
+max_drawdown = {}
+for ticker in tickers:
+    print("calculating KPIs for ", ticker)
+    _cagr_[ticker] = cagr(ohlc_renko[ticker])
+    sharpe_ratios[ticker] = sharpe(ohlc_renko[ticker], 0.025)
+    max_drawdown[ticker] = max_dd(ohlc_renko[ticker])
+
+KPI_df = pd.DataFrame([_cagr_, sharpe_ratios, max_drawdown], index=["Return", "Sharpe Ratio", "Max Drawdown"])
+KPI_df.T
+plt.show()
+
