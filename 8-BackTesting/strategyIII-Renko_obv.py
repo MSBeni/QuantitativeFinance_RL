@@ -13,16 +13,17 @@ from alpha_vantage.timeseries import TimeSeries
 import copy
 import matplotlib.pyplot as plt
 
+
 def atr(dataframe, n):
-    """function to calculate True Range and Average True Range"""
-    df = dataframe.copy()
-    df['H-L'] = abs(df['High'] - df['Low'])
-    df['H-PC'] = abs(df['High'] - df['Adj Close'].shift(1))
-    df['L-PC'] = abs(df['Low'] - df['Adj Close'].shift(1))
-    df['TR'] = df[['H-L', 'H-PC', 'L-PC']].max(axis=1, skipna=False)
-    df['ATR'] = df['TR'].rolling(n).mean()
+    """function used to anticipate True Range and Average True Range"""
+    df_ = dataframe.copy()
+    df_['H-L'] = abs(df_['High'] - df_['Low'])
+    df_['H-PC'] = abs(df_['High'] - df_['Adj Close'].shift(1))
+    df_['L-PC'] = abs(df_['Low'] - df_['Adj Close'].shift(1))
+    df_['TR'] = df_[['H-L', 'H-PC', 'L-PC']].max(axis=1, skipna=False)
+    df_['ATR'] = df_['TR'].rolling(n).mean()
     # df['ATR'] = df['TR'].ewm(span=n,adjust=False,min_periods=n).mean()
-    df2 = df.drop(['H-L', 'H-PC', 'L-PC'], axis=1)
+    df2 = df_.drop(['H-L', 'H-PC', 'L-PC'], axis=1)
     return df2
 
 
@@ -43,7 +44,7 @@ def slope(ser, n):
 
 
 def renko_DF(dataframe):
-    "function to convert ohlc data into renko bricks"
+    """function to convert ohlc data into renko bricks"""
     df = dataframe.copy()
     df.reset_index(inplace=True)
     df = df.iloc[:, [0, 1, 2, 3, 4, 5]]
@@ -75,35 +76,35 @@ def obv(dataframe):
 
 def cagr(dataframe):
     """function to calculate the Cumulative Annual Growth Rate of a trading strategy"""
-    df = dataframe.copy()
-    df["cum_return"] = (1 + df["ret"]).cumprod()
-    n = len(df) / (252 * 78)
-    CAGR = (df["cum_return"].tolist()[-1]) ** (1 / n) - 1
+    DF = dataframe.copy()
+    DF["cum_return"] = (1 + DF["ret"]).cumprod()
+    n = len(DF) / (252 * 78)
+    CAGR = (DF["cum_return"].tolist()[-1]) ** (1 / n) - 1
     return CAGR
 
 
 def volatility(dataframe):
     """function to calculate annualized volatility of a trading strategy"""
-    df = dataframe.copy()
-    vol = df["ret"].std() * np.sqrt(252 * 78)
+    dframe = dataframe.copy()
+    vol = dframe["ret"].std() * np.sqrt(252 * 78)
     return vol
 
 
 def sharpe(dataframe, rf):
     """function to calculate sharpe ratio ; rf is the risk free rate"""
-    df = dataframe.copy()
-    sr = (cagr(df) - rf) / volatility(df)
+    dataf = dataframe.copy()
+    sr = (cagr(dataf) - rf) / volatility(dataf)
     return sr
 
 
 def max_dd(dataframe):
     """function to calculate max drawdown"""
-    df = dataframe.copy()
-    df["cum_return"] = (1 + df["ret"]).cumprod()
-    df["cum_roll_max"] = df["cum_return"].cummax()
-    df["drawdown"] = df["cum_roll_max"] - df["cum_return"]
-    df["drawdown_pct"] = df["drawdown"] / df["cum_roll_max"]
-    max_dd = df["drawdown_pct"].max()
+    _df_ = dataframe.copy()
+    _df_["cum_return"] = (1 + _df_["ret"]).cumprod()
+    _df_["cum_roll_max"] = _df_["cum_return"].cummax()
+    _df_["drawdown"] = _df_["cum_roll_max"] - _df_["cum_return"]
+    _df_["drawdown_pct"] = _df_["drawdown"] / _df_["cum_roll_max"]
+    max_dd = _df_["drawdown_pct"].max()
     return max_dd
 
 
