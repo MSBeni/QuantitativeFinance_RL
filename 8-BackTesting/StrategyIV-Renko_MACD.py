@@ -7,10 +7,10 @@ import copy
 import matplotlib.pyplot as plt
 
 
-def MACD(DF, a, b, c):
+def MACD(dataframe, a, b, c):
     """function to calculate MACD
        typical values a = 12; b =26, c =9"""
-    df = DF.copy()
+    df = dataframe.copy()
     df["MA_Fast"] = df["Adj Close"].ewm(span=a, min_periods=a).mean()
     df["MA_Slow"] = df["Adj Close"].ewm(span=b, min_periods=b).mean()
     df["MACD"] = df["MA_Fast"] - df["MA_Slow"]
@@ -19,9 +19,9 @@ def MACD(DF, a, b, c):
     return (df["MACD"], df["Signal"])
 
 
-def ATR(DF, n):
+def ATR(dataframe, n):
     """function to calculate True Range and Average True Range"""
-    df = DF.copy()
+    df = dataframe.copy()
     df['H-L'] = abs(df['High'] - df['Low'])
     df['H-PC'] = abs(df['High'] - df['Adj Close'].shift(1))
     df['L-PC'] = abs(df['Low'] - df['Adj Close'].shift(1))
@@ -48,14 +48,14 @@ def slope(ser, n):
     return np.array(slope_angle)
 
 
-def renko_DF(DF):
+def renko_DF(dataframe):
     """function to convert ohlc data into renko bricks"""
-    df = DF.copy()
+    df = dataframe.copy()
     df.reset_index(inplace=True)
     df = df.iloc[:, [0, 1, 2, 3, 4, 5]]
     df.columns = ["date", "open", "high", "low", "close", "volume"]
     df2 = Renko(df)
-    df2.brick_size = max(0.5, round(ATR(DF, 120)["ATR"][-1], 0))
+    df2.brick_size = max(0.5, round(ATR(dataframe, 120)["ATR"][-1], 0))
     # renko_df = df2.get_bricks()
     renko_df = df2.get_ohlc_data()
     renko_df["bar_num"] = np.where(renko_df["uptrend"] == True, 1, np.where(renko_df["uptrend"] == False, -1, 0))
@@ -68,32 +68,32 @@ def renko_DF(DF):
     return renko_df
 
 
-def CAGR(DF):
+def CAGR(dataframe):
     """function to calculate the Cumulative Annual Growth Rate of a trading strategy"""
-    df = DF.copy()
+    df = dataframe.copy()
     df["cum_return"] = (1 + df["ret"]).cumprod()
     n = len(df) / (252 * 78)
     CAGR = (df["cum_return"].tolist()[-1]) ** (1 / n) - 1
     return CAGR
 
 
-def volatility(DF):
-    "function to calculate annualized volatility of a trading strategy"
-    df = DF.copy()
+def volatility(dataframe):
+    """function to calculate annualized volatility of a trading strategy"""
+    df = dataframe.copy()
     vol = df["ret"].std() * np.sqrt(252 * 78)
     return vol
 
 
-def sharpe(DF, rf):
-    "function to calculate sharpe ratio ; rf is the risk free rate"
-    df = DF.copy()
+def sharpe(dataframe, rf):
+    """function to calculate sharpe ratio ; rf is the risk free rate"""
+    df = dataframe.copy()
     sr = (CAGR(df) - rf) / volatility(df)
     return sr
 
 
-def max_dd(DF):
-    "function to calculate max drawdown"
-    df = DF.copy()
+def max_dd(dataframe):
+    """function to calculate max drawdown"""
+    df = dataframe.copy()
     df["cum_return"] = (1 + df["ret"]).cumprod()
     df["cum_roll_max"] = df["cum_return"].cummax()
     df["drawdown"] = df["cum_roll_max"] - df["cum_return"]
