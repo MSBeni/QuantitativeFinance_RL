@@ -126,7 +126,7 @@ while len(tickers) != 0 and attempt <= 5:
 
 tickers = ohlc_intraday.keys()  # redefine tickers variable after removing any tickers with corrupted data
 
-################################Backtesting####################################
+# ##############################Backtesting####################################
 
 # Merging renko df with original ohlc df
 ohlc_renko = {}
