@@ -7,6 +7,7 @@ tickers = ["MMM", "AXP", "AAPL", "BA", "CAT", "CVX", "CSCO", "KO", "DIS", "DWDP"
            "XOM", "GE", "GS", "HD", "IBM", "INTC", "JNJ", "JPM", "MCD", "MRK",
            "MSFT", "NKE", "PFE", "PG", "TRV", "UTX", "UNH", "VZ", "V", "WMT"]
 # tickers = ["MMM", "AXP"]
+# ,
 
 # list of tickers whose financial data needs to be extracted
 financial_dir = {}
@@ -75,9 +76,13 @@ for ticker in tickers:
 
 #storing information in pandas dataframe
 combined_financials = pd.DataFrame(financial_dir)
+# combined_financials.to_csv("Com_Finance_data_NEW.csv")
 combined_financials.dropna(how='all', axis=1, inplace=True)  # dropping columns with all NaN values
-tickers = combined_financials.columns #updating the tickers list based on only those tickers whose values were successfully extracted
+combined_financials.to_csv("Com_Finance_data_NEW.csv")
 
+# updating the tickers list based on only those tickers whose values were successfully extracted
+tickers = combined_financials.columns
+# print('tickers: ', tickers)
 # creating dataframe with relevant financial information for each stock using fundamental data
 stats = ["Earnings before interest and taxes",
          "Market cap (intra-day)",
@@ -101,13 +106,14 @@ for ticker in tickers:
         temp = combined_financials[ticker]
         ticker_stats = []
         for stat in stats:
-            ticker_stats.append(temp.loc[stat])
+            ticker_stats.append(temp.loc['Total Assets'])
         all_stats['{}'.format(ticker)] = ticker_stats
     except:
         print("can't read data for ", ticker)
 
 all_stats_df = pd.DataFrame(all_stats, index=indx)
-
+print(all_stats_df)
+#
 # cleansing of fundamental data imported in dataframe
 all_stats_df.iloc[1, :] = [x.replace("M", "E+03") for x in all_stats_df.iloc[1, :].values]
 all_stats_df.iloc[1, :] = [x.replace("B", "E+06") for x in all_stats_df.iloc[1, :].values]
