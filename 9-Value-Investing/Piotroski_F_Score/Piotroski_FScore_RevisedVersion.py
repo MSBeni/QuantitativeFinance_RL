@@ -18,24 +18,24 @@ for ticker in tickers:
         temp_dir2 = {}
         temp_dir3 = {}
         # getting balance sheet data from yahoo finance for the given ticker
-        url = 'https://in.finance.yahoo.com/quote/' + ticker + '/balance-sheet?p=' + ticker
+        url = 'https://finance.yahoo.com/quote/' + ticker + '/balance-sheet?p=' + ticker
         page = requests.get(url)
         page_content = page.content
         soup = BeautifulSoup(page_content, 'html.parser')
-        tabl = soup.find_all("div", {"class": "M(0) Mb(10px) Whs(n) BdEnd Bdc($seperatorColor) D(itb)"})
+        tabl = soup.find_all("div", {"class": "W(100%) Whs(nw) Ovx(a) BdT Bdtc($seperatorColor)"})
         for t in tabl:
-            rows = t.find_all("div", {"class": "rw-expnded"})
+            rows = t.find_all("div", {"class": "D(tbr) fi-row Bgc($hoverBgColor):h"})
             for row in rows:
                 temp_dir[row.get_text(separator='|').split("|")[0]] = row.get_text(separator='|').split("|")[1]
                 temp_dir2[row.get_text(separator='|').split("|")[0]] = row.get_text(separator='|').split("|")[2]
                 temp_dir3[row.get_text(separator='|').split("|")[0]] = row.get_text(separator='|').split("|")[3]
 
         # getting income statement data from yahoo finance for the given ticker
-        url = 'https://in.finance.yahoo.com/quote/' + ticker + '/financials?p=' + ticker
+        url = 'https://finance.yahoo.com/quote/' + ticker + '/financials?p=' + ticker
         page = requests.get(url)
         page_content = page.content
         soup = BeautifulSoup(page_content, 'html.parser')
-        tabl = soup.find_all("div", {"class": "M(0) Mb(10px) Whs(n) BdEnd Bdc($seperatorColor) D(itb)"})
+        tabl = soup.find_all("div", {"class": "W(100%) Whs(nw) Ovx(a) BdT Bdtc($seperatorColor)"})
         for t in tabl:
             rows = t.find_all("div", {"class": "rw-expnded"})
             for row in rows:
@@ -44,7 +44,7 @@ for ticker in tickers:
                 temp_dir3[row.get_text(separator='|').split("|")[0]] = row.get_text(separator='|').split("|")[3]
 
         # getting cashflow statement data from yahoo finance for the given ticker
-        url = 'https://in.finance.yahoo.com/quote/' + ticker + '/cash-flow?p=' + ticker
+        url = 'https://finance.yahoo.com/quote/' + ticker + '/cash-flow?p=' + ticker
         page = requests.get(url)
         page_content = page.content
         soup = BeautifulSoup(page_content, 'html.parser')
@@ -65,11 +65,17 @@ for ticker in tickers:
 
 # storing information in pandas dataframe
 combined_financials_cy = pd.DataFrame(financial_dir_cy)
-combined_financials_cy.dropna(axis=1, inplace=True)  # dropping columns with all NaN values
+combined_financials_cy.dropna(how='all', axis=1, inplace=True)  # dropping columns with all NaN values
+combined_financials_cy.to_csv("combined_financials_cy_Revised1.csv")
+
 combined_financials_py = pd.DataFrame(financial_dir_py)
-combined_financials_py.dropna(axis=1, inplace=True)
+combined_financials_py.dropna(how='all', axis=1, inplace=True)
+combined_financials_py.to_csv("combined_financials_py_Revised2.csv")
+
 combined_financials_py2 = pd.DataFrame(financial_dir_py2)
-combined_financials_py2.dropna(axis=1, inplace=True)
+combined_financials_py2.dropna(how='all', axis=1, inplace=True)
+combined_financials_py2.to_csv("combined_financials_py2_Revised3.csv")
+
 tickers = combined_financials_cy.columns  # updating the tickers list based on only those tickers whose values were successfully extracted
 
 # selecting relevant financial information for each stock using fundamental data
