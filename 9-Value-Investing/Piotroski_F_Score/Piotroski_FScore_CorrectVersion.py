@@ -33,31 +33,6 @@ indx = ["NetIncome", "TotAssets", "CashFlowOps", "LTDebt", "OtherLTDebt",
 
 
 tickers = combined_financials_cy.columns
-# ticker_stats = []
-
-
-
-# combined_financials_py.replace('-', '0', inplace=True)
-#
-# temp = combined_financials_py['IBM']
-#
-# for stat in stats:
-#     if stat == 'Total current assets':
-#         ticker_stats.append(int(temp.loc['Total Assets'].replace(",", "")) -
-#                             (int(temp.loc['Net Tangible Assets'].replace(",", "")) +
-#                              int(temp.loc['Invested Capital'].replace(",", "")) +
-#                              int(temp.loc['Tangible Book Value'].replace(",", ""))))
-#
-#     elif stat == 'Total current liabilities':
-#         ticker_stats.append(int(temp.loc['Total Debt'].replace(",", "")) -
-#                             int(temp.loc['Net Debt'].replace(",", "")))
-#     else:
-#         ticker_stats.append(int(temp.loc[stat].replace(",", "")))
-#
-# # all_stats['{}'.format(ticker)] = ticker_stats
-#
-# print(ticker_stats)
-
 
 
 def info_filter(df, stats, indx):
@@ -90,6 +65,7 @@ def info_filter(df, stats, indx):
     return all_stats_df
 
 # print(info_filter(combined_financials_cy, stats, indx))
+
 
 def piotroski_f(df_cy, df_py, df_py2):
     """function to calculate f score of each stock and output information as dataframe"""
