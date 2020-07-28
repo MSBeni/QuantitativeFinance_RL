@@ -77,10 +77,8 @@ combined_financials_py2.dropna(how='all', axis=1, inplace=True)
 # combined_financials_py2.to_csv("combined_financials_py2_Revised3.csv")
 
 tickers = combined_financials_cy.columns  # updating the tickers list based on only those tickers whose values were successfully extracted
-combined_financials_cy.set_index('Unnamed: 0', inplace=True)
-combined_financials_py.set_index('Unnamed: 0', inplace=True)
-combined_financials_py2.set_index('Unnamed: 0', inplace=True)
 
+#
 combined_financials_cy.fillna('0', inplace=True)
 combined_financials_py.fillna('0', inplace=True)
 combined_financials_py2.fillna('0', inplace=True)
