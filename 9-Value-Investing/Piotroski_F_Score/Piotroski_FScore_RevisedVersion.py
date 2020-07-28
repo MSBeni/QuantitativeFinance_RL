@@ -96,7 +96,6 @@ indx = ["NetIncome", "TotAssets", "CashFlowOps", "LTDebt", "OtherLTDebt",
 
 
 
-
 def info_filter(df, stats, indx):
     """function to filter relevant financial information for each
        stock and transforming string inputs to numeric"""
@@ -108,26 +107,24 @@ def info_filter(df, stats, indx):
             ticker_stats = []
             for stat in stats:
                 if stat == 'Total current assets':
-                    ticker_stats.append(temp.loc['Total Assets']-(temp.loc['Net Tangible Assets'] +
-                                                                  temp.loc['Invested Capital'] +
-                                                                  temp.loc['Tangible Book Value']))
+                    ticker_stats.append(int(temp.loc['Total Assets'].replace(",", "")) -
+                                        (int(temp.loc['Net Tangible Assets'].replace(",", "")) +
+                                         int(temp.loc['Invested Capital'].replace(",", "")) +
+                                         int(temp.loc['Tangible Book Value'].replace(",", ""))))
+
                 elif stat == 'Total current liabilities':
-                    ticker_stats.append(temp.loc['Total Debt'] - temp.loc['Net Debt'])
+                    ticker_stats.append(int(temp.loc['Total Debt'].replace(",", "")) -
+                                        int(temp.loc['Net Debt'].replace(",", "")))
                 else:
-                    ticker_stats.append(temp.loc[stat])
+                    ticker_stats.append(int(temp.loc[stat].replace(",", "")))
+
             all_stats['{}'.format(ticker)] = ticker_stats
         except:
             print("can't read data for ", ticker)
 
     all_stats_df = pd.DataFrame(all_stats, index=indx)
 
-    # cleansing of fundamental data imported in dataframe
-    all_stats_df[tickers] = all_stats_df[tickers].replace({',': ''}, regex=True)
-    for ticker in all_stats_df.columns:
-        all_stats_df[ticker] = pd.to_numeric(all_stats_df[ticker].values, errors='coerce')
     return all_stats_df
-
-print(info_filter(combined_financials_cy, stats, indx))
 
 # def piotroski_f(df_cy, df_py, df_py2):
 #     """function to calculate f score of each stock and output information as dataframe"""
