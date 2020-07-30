@@ -65,26 +65,30 @@ for ticker in tickers:
 # storing information in pandas dataframe
 combined_financials = pd.DataFrame(financial_dir)
 combined_financials.dropna(how='all', axis=1, inplace=True)  # dropping columns with all NaN values
-tickers = combined_financials.columns  # updating the tickers list based on only those tickers whose values were successfully extracted
+
+# updating the tickers list based on only those tickers whose values were successfully extracted
+tickers = combined_financials.columns
 for ticker in tickers:
     combined_financials = combined_financials[~combined_financials[ticker].str.contains("[a-z]").fillna(False)]
-
+# print(tickers)
 # creating dataframe with relevant financial information for each stock using fundamental data
 stats = ["EBITDA",
-         "Depreciation & amortization",
-         "Market cap (intra-day)",
-         "Net Income available to common shareholders",
-         "Net cash provided by operating activites",
-         "Capital expenditure",
-         "Total current assets",
-         "Total current liabilities",
-         "Net property, plant and equipment",
-         "Total stockholder equity",
-         "Long-term debt",
-         "Forward annual dividend yield"]  # change as required
-
+         "Reconciled Depreciation",
+         "Invested Capital",
+         "Net Income Common Stockholders",
+         "Operating Cash Flow",
+         "Capital Expenditure",
+         "Total Assets",
+         "Total Liabilities Net Minority Interest",
+         "Net Tangible Assets",
+         "Common Stock Equity",
+         "Net Debt",
+         "Issuance of Capital Stock"]  # change as required
+#
+#
 indx = ["EBITDA", "D&A", "MarketCap", "NetIncome", "CashFlowOps", "Capex", "CurrAsset",
         "CurrLiab", "PPE", "BookValue", "TotDebt", "DivYield"]
+
 all_stats = {}
 for ticker in tickers:
     try:
@@ -96,8 +100,10 @@ for ticker in tickers:
     except:
         print("can't read data for ", ticker)
 
-# cleansing of fundamental data imported in dataframe
 all_stats_df = pd.DataFrame(all_stats, index=indx)
+# print(all_stats_df)
+
+# cleansing of fundamental data imported in dataframe
 all_stats_df[tickers] = all_stats_df[tickers].replace({',': ''}, regex=True)
 all_stats_df[tickers] = all_stats_df[tickers].replace({'M': 'E+03'}, regex=True)
 all_stats_df[tickers] = all_stats_df[tickers].replace({'B': 'E+06'}, regex=True)
