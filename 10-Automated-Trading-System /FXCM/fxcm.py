@@ -7,12 +7,13 @@ token_path = "/home/i-sip_iot/s_vv/FXCM.txt"
 
 con = fxcmpy.fxcmpy(access_token=open(token_path, 'r').read()[:-1], log_level='error', server='demo')
 pair = 'EUR/USD'
-print(con.get_instruments())
-#get historical data
+# print(con.get_instruments())
+
+# get historical data
 data = con.get_candles(pair, period='m5', number=250)
 """periods can be m1, m5, m15 and m30, H1, H2, H3, H4, H6 and H8, D1, W1, M1"""
 
-print(data)
+# print(data)
 
 # #streaming data
 # "for streaming data, we first need ti subscribe to a currency pair"
