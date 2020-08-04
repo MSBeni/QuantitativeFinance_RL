@@ -31,24 +31,27 @@ GetOpenPositionsSummary = con.get_open_positions_summary().T
 GetClosedPositions = con.get_closed_positions(kind='dataframe').T
 print(GetClosedPositions)
 
-# con.get_closed_positions()
-#
-# con.get_orders()
+con.get_closed_positions()
 
-#orders
-# con.create_market_buy_order('EUR/USD', 10)
-# con.create_market_buy_order('USD/CAD', 10)
-# con.create_market_sell_order('USD/CAD', 20)
-# con.create_market_sell_order('EUR/USD', 10)
+con.get_orders()
 
-# order = con.open_trade(symbol='USD/CAD', is_buy=False,
-#                        is_in_pips=True,
-#                        amount=10, time_in_force='GTC',
-#                        stop=-9, trailing_step =True,
-#                        order_type='AtMarket', limit=9)
-#
-# con.close_trade(trade_id=tradeId, amount=1000)
-# con.close_all_for_symbol('USD/CAD')
-#
-# #closing connection
-# con.close()
+# orders
+con.create_market_buy_order('EUR/USD', 10)
+con.create_market_buy_order('USD/CAD', 10)
+con.create_market_sell_order('USD/CAD', 20)
+con.create_market_sell_order('EUR/USD', 10)
+
+
+tradeId = con.get_open_trade_ids()[-1]
+
+order = con.open_trade(symbol='USD/CAD', is_buy=False,
+                       is_in_pips=True,
+                       amount=10, time_in_force='GTC',
+                       stop=-9, trailing_step=True,
+                       order_type='AtMarket', limit=9)
+
+con.close_trade(trade_id=tradeId, amount=1000)
+con.close_all_for_symbol('USD/CAD')
+
+#closing connection
+con.close()
