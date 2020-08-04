@@ -18,9 +18,9 @@ data = con.get_candles(pair, period='m5', number=250)
 #streaming data
 "for streaming data, we first need ti subscribe to a currency pair"
 con.subscribe_market_data('EUR/USD')
-# con.get_last_price('EUR/USD')
-# con.get_prices('EUR/USD')
-# con.unsubscribe_market_data('EUR/USD')
+con.get_last_price('EUR/USD')
+con.get_prices('EUR/USD')
+con.unsubscribe_market_data('EUR/USD')
 
 print(con.get_last_price('EUR/USD'))
 print(con.get_prices('EUR/USD'))
@@ -28,27 +28,27 @@ print(con.unsubscribe_market_data('EUR/USD'))
 
 
 # trading account data
-# GetAccounts = con.get_accounts().T
-#
-# GetOpenPositions = con.get_open_positions().T
-# GetOpenPositionsSummary = con.get_open_positions_summary().T
-#
-# GetClosedPositions = con.get_closed_positions(kind='dataframe').T
+GetAccounts = con.get_accounts().T
+
+GetOpenPositions = con.get_open_positions().T
+GetOpenPositionsSummary = con.get_open_positions_summary().T
+
+GetClosedPositions = con.get_closed_positions(kind='dataframe').T
 
 print(con.get_accounts().T)
 print(con.get_open_positions().T)
 print(con.get_open_positions_summary().T)
 print(con.get_closed_positions(kind='dataframe').T)
 #
-# con.get_closed_positions()
+con.get_closed_positions()
+
+con.get_orders()
 #
-# con.get_orders()
-#
-# # orders
-# con.create_market_buy_order('EUR/USD', 10)
-# con.create_market_buy_order('USD/CAD', 10)
-# con.create_market_sell_order('USD/CAD', 20)
-# con.create_market_sell_order('EUR/USD', 10)
+# orders
+con.create_market_buy_order('EUR/USD', 10)
+con.create_market_buy_order('USD/CAD', 10)
+con.create_market_sell_order('USD/CAD', 20)
+con.create_market_sell_order('EUR/USD', 10)
 #
 #
 tradeId = con.get_open_trade_ids()[-1]
