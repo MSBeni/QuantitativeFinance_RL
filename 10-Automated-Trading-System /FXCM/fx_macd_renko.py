@@ -84,3 +84,33 @@ def renko_merge(DF):
     merged_df["macd_slope"] = slope(merged_df["macd"], 5)
     merged_df["macd_sig_slope"] = slope(merged_df["macd_sig"], 5)
     return merged_df
+
+
+def trade_signal(MERGED_DF, l_s):
+    """function to generate signal"""
+    signal = ""
+    df = copy.deepcopy(MERGED_DF)
+    if l_s == "":
+        if df["bar_num"].tolist()[-1] >= 2 and df["macd"].tolist()[-1] > df["macd_sig"].tolist()[-1] and \
+                df["macd_slope"].tolist()[-1] > df["macd_sig_slope"].tolist()[-1]:
+            signal = "Buy"
+        elif df["bar_num"].tolist()[-1] <= -2 and df["macd"].tolist()[-1] < df["macd_sig"].tolist()[-1] and \
+                df["macd_slope"].tolist()[-1] < df["macd_sig_slope"].tolist()[-1]:
+            signal = "Sell"
+
+    elif l_s == "long":
+        if df["bar_num"].tolist()[-1] <= -2 and df["macd"].tolist()[-1] < df["macd_sig"].tolist()[-1] and \
+                df["macd_slope"].tolist()[-1] < df["macd_sig_slope"].tolist()[-1]:
+            signal = "Close_Sell"
+        elif df["macd"].tolist()[-1] < df["macd_sig"].tolist()[-1] and df["macd_slope"].tolist()[-1] < \
+                df["macd_sig_slope"].tolist()[-1]:
+            signal = "Close"
+
+    elif l_s == "short":
+        if df["bar_num"].tolist()[-1] >= 2 and df["macd"].tolist()[-1] > df["macd_sig"].tolist()[-1] and \
+                df["macd_slope"].tolist()[-1] > df["macd_sig_slope"].tolist()[-1]:
+            signal = "Close_Buy"
+        elif df["macd"].tolist()[-1] > df["macd_sig"].tolist()[-1] and df["macd_slope"].tolist()[-1] > \
+                df["macd_sig_slope"].tolist()[-1]:
+            signal = "Close"
+    return signal
