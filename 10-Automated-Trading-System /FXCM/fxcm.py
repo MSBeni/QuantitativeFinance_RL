@@ -70,17 +70,18 @@ print("Create market buy order 'EUR/USD': ")
 print(con.create_market_buy_order('EUR/USD', 10))
 # #
 # #
-# tradeId = con.get_open_trade_ids()[-1]
+tradeId = con.get_open_trade_ids()[-1]
 # print(tradeId)
 # #
-# order = con.open_trade(symbol='USD/CAD', is_buy=False,
-#                        is_in_pips=True,
-#                        amount=10, time_in_force='GTC',
-#                        stop=-9, trailing_step=True,
-#                        order_type='AtMarket', limit=9)
-#
+order = con.open_trade(symbol='USD/CAD', is_buy=False,
+                       is_in_pips=True,
+                       amount=10, time_in_force='GTC',
+                       stop=-9, trailing_step=True,
+                       order_type='AtMarket', limit=9)
+
 # con.close_trade(trade_id=tradeId, amount=1000)
-# con.close_all_for_symbol('USD/CAD')
-#
-# #closing connection
-# con.close()
+con.close_all_for_symbol('EUR/USD')
+con.close_all_for_symbol('USD/CAD')
+
+#closing connection
+con.close()
