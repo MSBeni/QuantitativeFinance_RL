@@ -7,7 +7,7 @@ import copy
 
 # initiating API connection and defining trade parameters
 token_path = "/home/i-sip_iot/s_vv/FXCM.txt"
-con = fxcmpy.fxcmpy(access_token=open(token_path, 'r').read(), log_level='error', server='demo')
+con = fxcmpy.fxcmpy(access_token=open(token_path, 'r').read()[:-1], log_level='error', server='demo')
 
 # defining strategy parameters
 pairs = ['EUR/USD', 'GBP/USD', 'USD/CHF', 'AUD/USD', 'USD/CAD']  # currency pairs to be included in the strategy
