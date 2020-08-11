@@ -114,3 +114,66 @@ def trade_signal(MERGED_DF, l_s):
                 df["macd_sig_slope"].tolist()[-1]:
             signal = "Close"
     return signal
+
+
+def main():
+    try:
+        open_pos = con.get_open_positions()
+        for currency in pairs:
+            long_short = ""
+            if len(open_pos) > 0:
+                open_pos_cur = open_pos[open_pos["currency"] == currency]
+                if len(open_pos_cur) > 0:
+                    if open_pos_cur["isBuy"].tolist()[0] == True:
+                        long_short = "long"
+                    elif open_pos_cur["isBuy"].tolist()[0] == False:
+                        long_short = "short"
+            data = con.get_candles(currency, period='m5', number=250)
+            ohlc = data.iloc[:, [0, 1, 2, 3, 8]]
+            ohlc.columns = ["Open", "Close", "High", "Low", "Volume"]
+            signal = trade_signal(renko_merge(ohlc), long_short)
+
+            if signal == "Buy":
+                con.open_trade(symbol=currency, is_buy=True, is_in_pips=True, amount=pos_size,
+                               time_in_force='GTC', stop=-8, trailing_step=True, order_type='AtMarket')
+                print("New long position initiated for ", currency)
+            elif signal == "Sell":
+                con.open_trade(symbol=currency, is_buy=False, is_in_pips=True, amount=pos_size,
+                               time_in_force='GTC', stop=-8, trailing_step=True, order_type='AtMarket')
+                print("New short position initiated for ", currency)
+            elif signal == "Close":
+                con.close_all_for_symbol(currency)
+                print("All positions closed for ", currency)
+            elif signal == "Close_Buy":
+                con.close_all_for_symbol(currency)
+                print("Existing Short position closed for ", currency)
+                con.open_trade(symbol=currency, is_buy=True, is_in_pips=True, amount=pos_size,
+                               time_in_force='GTC', stop=-8, trailing_step=True, order_type='AtMarket')
+                print("New long position initiated for ", currency)
+            elif signal == "Close_Sell":
+                con.close_all_for_symbol(currency)
+                print("Existing long position closed for ", currency)
+                con.open_trade(symbol=currency, is_buy=False, is_in_pips=True, amount=pos_size,
+                               time_in_force='GTC', stop=-8, trailing_step=True, order_type='AtMarket')
+                print("New short position initiated for ", currency)
+    except:
+        print("error encountered....skipping this iteration")
+
+
+# Continuous execution
+starttime = time.time()
+timeout = time.time() + 60 * 60 * 1  # 60 seconds times 60 meaning the script will run for 1 hr
+while time.time() <= timeout:
+    try:
+        print("passthrough at ", time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+        main()
+        time.sleep(300 - ((time.time() - starttime) % 300.0))  # 5 minute interval between each new execution
+    except KeyboardInterrupt:
+        print('\n\nKeyboard exception received. Exiting.')
+        exit()
+
+# Close all positions and exit
+for currency in pairs:
+    print("closing all positions for ", currency)
+    con.close_all_for_symbol(currency)
+con.close()
