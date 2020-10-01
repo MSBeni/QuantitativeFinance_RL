@@ -20,6 +20,8 @@ key_path = "/home/i-sip_iot/s_vv/AlphaVantage.txt"
 ts = TimeSeries(key=open(key_path, 'r').read(), output_format='pandas')
 
 all_tickers = ["AAPL", "MSFT", "CSCO", "AMZN"]
+# all_tickers = ["PCLN"]
+
 data = ts.get_intraday(symbol='MSFT', interval='1min', outputsize='full')[0]
 data.columns = ["open", "high", "low", "close", "volume"]
 

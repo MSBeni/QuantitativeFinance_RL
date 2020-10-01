@@ -16,7 +16,7 @@ close_prices = pd.DataFrame()
 cp_tickers = all_tickers
 attempt = 0
 drop = []
-while len(cp_tickers) != 0 and attempt <=5:
+while len(cp_tickers) != 0 and attempt <= 5:
     print("-----------------")
     print("attempt number ", attempt)
     print("-----------------")
