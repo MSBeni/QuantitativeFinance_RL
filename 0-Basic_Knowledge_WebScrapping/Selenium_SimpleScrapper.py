@@ -18,10 +18,14 @@ browser.get(url)
 
 # Getting all elements
 elements = browser.find_elements_by_xpath("html/*")
+# elements = browser.find_elements_by_xpath("html/body/*")
 
 for el in elements:
     print(el.tag_name)
     # print(el.text)
-    print(el.get_attribute('textContent'))
+    # print(el.get_attribute('textContent'))
+    Inside_elements = el.find_elements_by_xpath("./*")
+    for newel in Inside_elements:
+        print(newel.tag_name)
 
 browser.quit()
