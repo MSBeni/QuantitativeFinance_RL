@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream 
 # README # 
  
 This README would normally document the project provided here. In this project, in addition to data gathering techniques, 
