@@ -1,5 +1,6 @@
 from selenium import webdriver
-# We are using the ChromeDriverManagerto install the latest suitable Chrome Web Driver Based on Local Browser
+# We are using the ChromeDriverManager to install the latest suitable Chrome Web Driver Based on Local Browser
+# pip install webdriver-manager
 from webdriver_manager.chrome import ChromeDriverManager
 
 url = "https://ca.finance.yahoo.com/quote/TSLA/key-statistics?p=TSLA"
