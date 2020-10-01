@@ -4,28 +4,42 @@ This README would normally document the project provided here. In this project, 
 the process of financial analysis in stock market and cryptocurrency network will be analyzed. 
 Moreover, Reinforcement Learning (RL) approaches are used to make a market portfolio manager engine. 
  
-![Alt text](./images/1v2Loss.png)
+![Alt text](./images/Golang.png)
  
  
 ### What is this repository for? ### 
  
-* Data Gathering - Financial Data Scrapping - Using APIs to gather the data - Working on Request, Beautiful Soup, Selenium and other web scraping techniques. 
-* Financial Data Analysis 
-* Key Financial Performance Indicators MACD, OBV, ADX, Renko Chart, RSI, Slope and the known indicaors 
-* Key Financial Performance Measurement Metrics including: Sharpe Ratio, Sortino Ratio, CAGR and Volatility 
-* Work on Financial BackTesting and Value Investing 
-* Data analysis, and bot developement 
-* RL approaches portfolio manager engine 
+* Architecture, networking and client/server architecture, request/response pattern, RFC standards defined by the IETF
+* Templates and the role they play in server-side programming, and how to work with them with Go's standard libraries, modifying data structures to work well with templates
+* Servers,relationship between TCP and HTTP, building TCP server by responding to HTTP requests, Creating TCP server which responds to HTTP requests and creating TCP server which handles various routes and methods, work on  web server, servemux, multiplexer, and mux
+* Streamlining web development with net/http package, the handler interface and http.ListenAndServe, http.NotFoundHandler 
+* creating servemux, http.Handle & http.Handler, http.Handlefunc, func(ResponseWriter, *Request), & http.HandlerFunc, http.ServeContent, http.ServeFile, & http.FileServer
+* State & Sessions and deployment, Amazon Web Services
+* Work on SQL and NoSQL databases, specifically work on ArangoDN a NoSQL database and different sample codes and Queries workin on this database and also covering other databases like MySQL, MongoDB, SQlite, PostgresQL and InfluxDB
+* Docker and Kubernetes, virtual machines vs containers, implementing Docker and Go
 * [Learn More about us](https://bituniex.com/) 
  
  
 ### Materials Covered Here ### 
-- [About the Project](#About-the-Project) 
-- [About Data Gathering](#About-Data-Gathering) 
-- [Financial Performance Indicators and Measurement](#Financial-Performance-Indicators-and-Measurement) 
+- [About Golang](#About-Golang) 
+- [About Data Prepared](#About-Data-Prepared) 
+- [What Is Considered In This Project](#What-Is-Considered-In-This-Project) 
  
-## About The Project 
-The main focus of this project is to represent an engine based on AI solutions to maximize the returned benefit in trading the stocks in the market. At the first steps, we focus on the financial data gathering capabilities and also the Key Financial Performance Indicators and Measurements. The backtesting techniques is deployed in the other part of the project and symply a trading bot is developed as a proof of the concept. 
-An RL-based trading bot is developed and will be released soon. 
+## About Golang 
+Go, or Golang, is an open source programming language developed at Google. The designers of Go wanted developers to have a programming language that made it quick and easy to develop applications at scale. Go is used on servers, web development, and even command line interafaces. 
+Go is one of the most powerful, performant, and scalable programming language today for creating web applications, web API’s, microservices, and other distributed services.
+ 
+ ## About Golang 
+ Different test data is prepared in this project in order to be uploaded to the arangodb database and be used in different sections of the project.
 
- ![Alt text](./images/MSFT-MACD.png)
+ ## What Is Considered In This Project 
+ different materials necessary to be covered in order to enable you to work with the Golang web is tried to be implmented in this project.
+ 
+- Architecture, networking and client/server architecture, request/response pattern, RFC standards defined by the IETF
+- Templates and the role they play in server-side programming, and how to work with them with Go's standard libraries, modifying data structures to work well with templates
+- Servers,relationship between TCP and HTTP, building TCP server by responding to HTTP requests, Creating TCP server which responds to HTTP requests and creating TCP server which handles various routes and methods, work on  web server, servemux, multiplexer, and mux
+- Streamlining web development with net/http package, the handler interface and http.ListenAndServe, http.NotFoundHandler 
+- creating servemux, http.Handle & http.Handler, http.Handlefunc, func(ResponseWriter, *Request), & http.HandlerFunc, http.ServeContent, http.ServeFile, & http.FileServer
+- State & Sessions and deployment, Amazon Web Services
+- Work on SQL and NoSQL databases, specifically work on ArangoDN a NoSQL database and different sample codes and Queries workin on this database and also covering other databases like MySQL, MongoDB, SQlite, PostgresQL and InfluxDB
+- Docker and Kubernetes, virtual machines vs containers, implementing Docker and Go
