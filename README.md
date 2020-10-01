@@ -4,6 +4,7 @@ This README would normally document the project provided here. In this project, 
 the process of financial analysis in stock market and cryptocurrency network will be analyzed. 
 Moreover, Reinforcement Learning (RL) approaches are used to make a market portfolio manager engine. 
  
+![Alt text](./images/1v2Loss.png)
  
  
 ### What is this repository for? ### 
@@ -27,4 +28,4 @@ Moreover, Reinforcement Learning (RL) approaches are used to make a market portf
 The main focus of this project is to represent an engine based on AI solutions to maximize the returned benefit in trading the stocks in the market. At the first steps, we focus on the financial data gathering capabilities and also the Key Financial Performance Indicators and Measurements. The backtesting techniques is deployed in the other part of the project and symply a trading bot is developed as a proof of the concept. 
 An RL-based trading bot is developed and will be released soon. 
 
- 
+ ![Alt text](./images/MSFT-MACD.png)
