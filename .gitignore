@@ -1,0 +1,7 @@
+IntelliJ IDEAPyCharm
+/env
+/.vscode
+/__pycache__
+
+.env
+*.log
