@@ -36,6 +36,7 @@ FinalElement = browser.find_elements_by_xpath(Path)
 for el in FinalElement:
     if target in el.get_attribute("textContent"):
         print("index_num: ", index)
+        print("The real final path is: ", Path + "[" + str(index) + "]")
         print("Final Text>>>> ", el.get_attribute("textContent"))
     else:
         index += 1
