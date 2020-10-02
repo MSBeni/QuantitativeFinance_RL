@@ -23,10 +23,21 @@ def FindElementByTarget(path, target, element):
             return finalPath
     return ""
 
-
+target = "marketCap"
 Start_element = browser.find_element_by_xpath("html")
-Path = FindElementByTarget("html", "marketCap", Start_element)
+Path = FindElementByTarget("html", target, Start_element)
 
 print("The final path is:", Path)
 
-# browser.quit()
+# html index to find the place where the target is in different same paths
+index = 1
+
+FinalElement = browser.find_elements_by_xpath(Path)
+for el in FinalElement:
+    if target in el.get_attribute("textContent"):
+        print("index_num: ", index)
+        print("Final Text>>>> ", el.get_attribute("textContent"))
+    else:
+        index += 1
+
+browser.quit()
