@@ -24,6 +24,7 @@ def FindElementByTarget(path, target, element):
             return finalPath
     return ""
 
+
 target = "marketCap"
 Start_element = browser.find_element_by_xpath("html")
 Path = FindElementByTarget("html", target, Start_element)
@@ -38,7 +39,8 @@ for el in FinalElement:
     if target in el.get_attribute("textContent"):
         print("index_num: ", index)
         print("The real final path is: ", Path + "[" + str(index) + "]")
-        Final_json = json.loads((el.get_attribute("textContent").split("(this));\n")[0]).split("root.App.main = ")[1][:-3])
+        Final_json = json.loads((el.get_attribute("textContent").split("(this));\n")[0]).split("root.App.main = ")[1]
+                                [:-3])
     else:
         index += 1
 
