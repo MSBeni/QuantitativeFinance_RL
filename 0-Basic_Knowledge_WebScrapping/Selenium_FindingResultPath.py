@@ -9,14 +9,10 @@ url = "https://ca.finance.yahoo.com/quote/TSLA/key-statistics?p=TSLA"
 browser = webdriver.Chrome(ChromeDriverManager().install())
 browser.get(url)
 
-print(browser.page_source)
-
 
 # "marketCap"
-
-
 def FindElementByTarget(path, target, element):
-    if target in element.get_attribute("textContent") and el.tag_name == 'script':
+    if target in element.get_attribute("textContent") and element.tag_name == 'script':
         return path
 
     New_Elements = element.find_elements_by_xpath("./*")
@@ -28,9 +24,9 @@ def FindElementByTarget(path, target, element):
     return ""
 
 
-elements = browser.find_elements_by_xpath("html/*")
-# print(elements)
-for el in elements:
-    print(el.get_attribute("textContent"))
+Start_element = browser.find_element_by_xpath("html")
+Path = FindElementByTarget("html", "marketCap", Start_element)
+
+print("The final path is:", Path)
 
 # browser.quit()
