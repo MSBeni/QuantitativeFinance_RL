@@ -1,5 +1,6 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+import json
 
 url = "https://ca.finance.yahoo.com/quote/TSLA/key-statistics?p=TSLA"
 # options = webdriver.ChromeOptions()
@@ -37,8 +38,9 @@ for el in FinalElement:
     if target in el.get_attribute("textContent"):
         print("index_num: ", index)
         print("The real final path is: ", Path + "[" + str(index) + "]")
-        print("Final Text>>>> ", el.get_attribute("textContent"))
+        Final_json = json.loads((el.get_attribute("textContent").split("(this));\n")[0]).split("root.App.main = ")[1][:-3])
     else:
         index += 1
 
+print(Final_json["context"])
 browser.quit()
