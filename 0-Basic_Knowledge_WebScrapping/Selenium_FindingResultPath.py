@@ -44,5 +44,6 @@ for el in FinalElement:
     else:
         index += 1
 
-print(Final_json["context"])
+print(Final_json.keys())
+print(Final_json["context"].keys())
 browser.quit()
