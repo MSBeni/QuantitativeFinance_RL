@@ -1,5 +1,6 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+import pandas as pd
 import json
 
 url = "https://ca.finance.yahoo.com/quote/TSLA/key-statistics?p=TSLA"
@@ -25,6 +26,18 @@ def FindElementByTarget(path, target, element):
     return ""
 
 
+def JsonPathFinder(jsonobj, path, target, matchtype):
+    if type(jsonobj) == matchtype:
+        if target in jsonobj:
+            return path
+        for newKey in jsonobj:
+            print("JSON Path: ", path)
+            result = JsonPathFinder(jsonobj[newKey], path + "," + newKey, target, matchtype)
+            if result != "":
+                return result
+    return ""
+
+
 target = "marketCap"
 Start_element = browser.find_element_by_xpath("html")
 Path = FindElementByTarget("html", target, Start_element)
@@ -44,6 +57,26 @@ for el in FinalElement:
     else:
         index += 1
 
-print(Final_json.keys())
-print(Final_json["context"].keys())
+print(Final_json)
+print(type(Final_json))
+# print(Final_json["context"].keys())
+# print(Final_json["context"]["dispatcher"]["stores"])
+
+MatchType = type(Final_json)
+Final_JSON_Path = JsonPathFinder(Final_json, "", "marketCap", MatchType)
+print("Final JSON PATH is: ", Final_JSON_Path)
+
+JsonSplittedPath = Final_JSON_Path.split(",")
+print("JsonSplittedPath: ", JsonSplittedPath)
+
+WholeJSON = Final_json
+for el in JsonSplittedPath:
+    if el != "":
+        data_ = WholeJSON[el]
+        WholeJSON = data_
+
+print(data_)
+final_DATA = pd.DataFrame(data_)
+print(final_DATA)
+
 browser.quit()
