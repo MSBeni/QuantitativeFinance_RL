@@ -31,20 +31,20 @@ element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.X
 
 element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div/div/span')))
 print(element_)
-print(element_.get_attribute("textContent"))
-# element_.text = "Oct. 07, 2016 - Oct. 07, 2020"
-# element_.send_keys("Oct. 07, 2016 - Oct. 07, 2020")
-# element_.submit()
 
-# element_[0].send_keys("Oct. 07, 2016 - Oct. 07, 2020")
-# elem = browser.find_elements_by_xpath('//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div/div/span')
-# print(len(elem))
+element_.textContent = "Oct. 07, 2016 - Oct. 07, 2020"
+print(element_.get_attribute("textContent"))
+
+# In order to edit the element inner text data
+# browser.execute_script()
+browser.execute_script("arguments[0].innerText = 'Oct. 07, 2016 - Oct. 07, 2020'", element_)
+
+
+'//*[@id="dropdown-menu"]/div/div[3]/button[1]'
+
 # print(elem[0].get_attribute("textContent"))
 
-
 element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/button'))).click()
-
-# HistElement = browser.find_elements_by_xpath('//*[@id="quote-nav"]/ul/li[5]/a')[0]
-# print(HistElement.get_attribute("textContent"))
-# print(len(HistElement))
+Final_el = browser.find_elements_by_xpath('//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[2]/span[2]/a')[0]
+Final_el.click()
 # browser.quit()
