@@ -42,26 +42,39 @@ print(element_.get_attribute("textContent"))
 # element_ = browser.find_elements_by_xpath('//*[@id="dropdown-menu"]/div/div[3]/button[1]')[0]
 # //*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div/div/svg/path
 # Drop Down Bottom
-Bottom_element = WebDriverWait(browser, 10).\
+Bottom_element = WebDriverWait(browser, 30).\
     until(EC.visibility_of_element_located((
     By.XPATH, '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div'))).click()
 # actions.move_to_element(Bottom_element[0]).perform()
 
 # Bottom_element[0].click()
 
-# # start Date
-# # '//*[@id="dropdown-menu"]/div/div[1]/input'
-# _element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[1]/input')))
-# print(_element.get_attribute("textContent"))
+# start Date
+# '//*[@id="dropdown-menu"]/div/div[1]/input'
+_element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH,
+                                                                             '//*[@id="dropdown-menu"]/div/div[1]/input'
+                                                                             )))
+_element.send_keys("010-120-16")  # set the date to
+
 # # End Date
 # # '//*[@id="dropdown-menu"]/div/div[2]/input'
-# _element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[2]/input')))
+# _element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/
+# div[2]/input')))
 # print(_element.get_attribute("textContent"))
-# # print(elem[0].get_attribute("textContent"))
 
-element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/button'))).click()
-element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/button'))).click()
+print(_element.get_attribute("textContent"))
 
-Final_el = browser.find_elements_by_xpath('//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[2]/span[2]/a')[0]
+element_ = WebDriverWait(browser, 5).\
+    until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[3]/button[1]'))).click()
+
+
+# element_ = WebDriverWait(browser, 5)\
+#     .until(EC.visibility_of_element_located((By.XPATH,
+#                                              '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/button')
+#                                             )).click()
+
+Final_el = \
+    browser.find_elements_by_xpath('//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[2]/span[2]/a')[0]
+
 Final_el.click()
 # browser.quit()

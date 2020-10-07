@@ -23,14 +23,16 @@ Bottom_element = WebDriverWait(browser, 30).\
 
 # start Date
 # '//*[@id="dropdown-menu"]/div/div[1]/input'
-_element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[1]/input')))
+_element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH,
+                                                                             '//*[@id="dropdown-menu"]/div/div[1]/input'
+                                                                             )))
+_element.send_keys("010-120-16")  # set the date to
+
+# _element.send_keys("6")
 # _element = browser.find_elements_by_xpath('//*[@id="dropdown-menu"]/div/div[1]/input')
 
-# browser.execute_script("document.getElementByName('startDate')[0].value = '2016-10-07'")
-# print(_element.get_attribute("textContent"))
-# browser.execute_script("arguments[0].value = '2016'", _element.click())
-browser.execute_script("arguments[0].innerText = '2016-10-07'", _element.click())
 print(_element.get_attribute("textContent"))
+
 # End Date
 # '//*[@id="dropdown-menu"]/div/div[2]/input'
 # _element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[2]/input')))
