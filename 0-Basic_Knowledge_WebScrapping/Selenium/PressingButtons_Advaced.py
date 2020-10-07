@@ -2,6 +2,9 @@ from selenium import webdriver
 # We are using the ChromeDriverManager to install the latest suitable Chrome Web Driver Based on Local Browser
 # pip install webdriver-manager
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 url = "https://www.google.com/"
 
