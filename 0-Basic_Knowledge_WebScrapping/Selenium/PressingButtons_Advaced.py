@@ -5,6 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 url = "https://www.google.com/"
@@ -30,21 +31,37 @@ element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.X
                                                                             ))).click()
 
 element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div/div/span')))
-print(element_)
 
 element_.textContent = "Oct. 07, 2016 - Oct. 07, 2020"
-print(element_.get_attribute("textContent"))
 
 # In order to edit the element inner text data
 # browser.execute_script()
 browser.execute_script("arguments[0].innerText = 'Oct. 07, 2016 - Oct. 07, 2020'", element_)
+print(element_.get_attribute("textContent"))
 
+# element_ = browser.find_elements_by_xpath('//*[@id="dropdown-menu"]/div/div[3]/button[1]')[0]
+# //*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div/div/svg/path
+# Drop Down Bottom
+# Bottom_element = WebDriverWait(browser, 30).until(EC.visibility_of_element_located((By.XPATH,'//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div/div/svg')))
+# Bottom_element = browser.find_elements_by_xpath('//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div/div/svg')
+# WebDriverWait(browser, 50).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/div[1]/div/div/div/svg'))).click()
+# actions.move_to_element(Bottom_element[0]).perform()
 
-'//*[@id="dropdown-menu"]/div/div[3]/button[1]'
+# Bottom_element[0].click()
 
-# print(elem[0].get_attribute("textContent"))
+# # start Date
+# # '//*[@id="dropdown-menu"]/div/div[1]/input'
+# _element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[1]/input')))
+# print(_element.get_attribute("textContent"))
+# # End Date
+# # '//*[@id="dropdown-menu"]/div/div[2]/input'
+# _element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[2]/input')))
+# print(_element.get_attribute("textContent"))
+# # print(elem[0].get_attribute("textContent"))
 
 element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/button'))).click()
+element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[1]/button'))).click()
+
 Final_el = browser.find_elements_by_xpath('//*[@id="Col1-1-HistoricalDataTable-Proxy"]/section/div[1]/div[2]/span[2]/a')[0]
 Final_el.click()
 # browser.quit()
