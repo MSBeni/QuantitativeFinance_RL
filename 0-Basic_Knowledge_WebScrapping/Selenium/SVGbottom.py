@@ -34,10 +34,7 @@ _element.send_keys("010-120-16")  # set the date to
 print(_element.get_attribute("textContent"))
 
 # End Date
-# '//*[@id="dropdown-menu"]/div/div[2]/input'
-# _element = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[2]/input')))
-# print(_element.get_attribute("textContent"))
-# print(elem[0].get_attribute("textContent"))
+
 
 # Press OK bottom
 element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="dropdown-menu"]/div/div[3]/button[1]'))).click()
