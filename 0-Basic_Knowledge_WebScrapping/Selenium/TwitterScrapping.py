@@ -7,6 +7,7 @@ import pandas as pd
 import json
 
 url = "https://twitter.com/search?q=(%23AAPL)%20until%3A2020-10-07%20since%3A2020-10-06&src=typed_query"
+# url = "https://twitter.com/search?q=(%23AAPL)%20until%3A2020-10-07%20since%3A2020-10-06&src=typed_query"
 # options = webdriver.ChromeOptions()
 # options.add_argument('headless')
 # pathToChromeDriver = ""
@@ -14,9 +15,14 @@ url = "https://twitter.com/search?q=(%23AAPL)%20until%3A2020-10-07%20since%3A202
 browser = webdriver.Chrome(ChromeDriverManager().install())
 browser.get(url)
 # elements = browser.find_element_by_xpath("//*[@id=\"react-root\"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[1]/div/div/article/div/div/div/div[2]/div[2]/div[2]/div[1]/div/span[3]")
-element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div')))
+# element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div')))
+element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div/div[2]/div/div/section/div')))
+# element_ = browser.find_elements_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div')
 
+# print(element_.getText())
 print(element_.get_attribute("textContent"))
+print("\n", "@@@@@@@@@@@@@@@@@@@")
+print(element_.getText())
 print("\n")
 
 
