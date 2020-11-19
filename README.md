@@ -9,7 +9,7 @@ This README would normally document the project provided here. In this project, 
 the process of financial analysis in stock market and cryptocurrency network will be analyzed. 
 Moreover, Reinforcement Learning (RL) approaches are used to make a market portfolio manager engine. 
  
-![Alt text](./images/1v2Loss.png)
+![Alt text](./images/BollingerBand2.png)
  
  
 ### What is this repository for? ### 
