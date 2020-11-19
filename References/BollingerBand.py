@@ -1,3 +1,5 @@
+# ref: https://gist.github.com/PyDataBlog/04df02f5084d1fd376c9b4ce198e6a0e#file-simple-bollinger-plot-py
+
 # import needed libraries
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -36,7 +38,6 @@ for item in (fb, tesla, amazon):
 fb[['Adj Close', '30 Day MA', 'Upper Band', 'Lower Band']].plot(figsize=(12, 6))
 plt.title('30 Day Bollinger Band for Facebook')
 plt.ylabel('Price (USD)')
-plt.show()
 
 
 # set style, empty figure and axes
@@ -59,4 +60,4 @@ ax.set_title('30 Day Bollinger Band For Facebook')
 ax.set_xlabel('Date (Year/Month)')
 ax.set_ylabel('Price(USD)')
 ax.legend()
-plt.show();
+plt.show()
