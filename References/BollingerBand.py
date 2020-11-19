@@ -20,9 +20,9 @@ def get_adj_close(ticker, start, end):
 
 
 # Get Adjusted Closing Prices for Facebook, Tesla and Amazon between 2016-2017
-fb = get_adj_close('fb', '1/2/2016', '31/12/2017')
-tesla = get_adj_close('tsla', '1/2/2016', '31/12/2017')
-amazon = get_adj_close('amzn', '1/2/2016', '31/12/2017')
+fb = get_adj_close('fb', '1/2/2020', '31/12/2020')
+tesla = get_adj_close('tsla', '1/2/2020', '31/12/2020')
+amazon = get_adj_close('amzn', '1/2/2020', '31/12/2020')
 
 # Calculate 30 Day Moving Average, Std Deviation, Upper Band and Lower Band
 for item in (fb, tesla, amazon):
@@ -36,13 +36,13 @@ for item in (fb, tesla, amazon):
 
 # Simple 30 Day Bollinger Band for Facebook (2016-2017)
 fb[['Adj Close', '30 Day MA', 'Upper Band', 'Lower Band']].plot(figsize=(12, 6))
-plt.title('30 Day Bollinger Band for Facebook')
+plt.title('30 Days Bollinger Band (BB)')
 plt.ylabel('Price (USD)')
 
 
 # set style, empty figure and axes
 plt.style.use('fivethirtyeight')
-fig = plt.figure(figsize=(12,6))
+fig = plt.figure(figsize=(12, 6))
 ax = fig.add_subplot(111)
 
 # Get index values for the X axis for facebook DataFrame
@@ -56,7 +56,7 @@ ax.plot(x_axis, fb['Adj Close'], color='blue', lw=2)
 ax.plot(x_axis, fb['30 Day MA'], color='black', lw=2)
 
 # Set Title & Show the Image
-ax.set_title('30 Day Bollinger Band For Facebook')
+ax.set_title('30 Days Bollinger Band (BB)')
 ax.set_xlabel('Date (Year/Month)')
 ax.set_ylabel('Price(USD)')
 ax.legend()
