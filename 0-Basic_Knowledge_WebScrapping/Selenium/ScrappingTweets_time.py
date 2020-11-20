@@ -24,14 +24,7 @@ element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located(
     (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[1]/'
                'div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a')))
 
-print("The time of the Tweet is: ")
-print(element_.get_attribute("textContent"))
-
-
-element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located(
-    (By.CSS_SELECTOR, '#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div > div.css-1dbjc4n.r-14lw9ot.r-1tlfku8.r-1ljd8xs.r-13l2t4g.r-1phboty.r-1jgb5lz.r-11wrixw.r-61z16t.r-1ye8kvj.r-13qz1uu.r-184en5c > div > div:nth-child(2) > div > div > section > div > div > div:nth-child(1) > div > div > article > div > div > div > div.css-1dbjc4n.r-18u37iz > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1mi0q7o > div:nth-child(1) > div > div > div.css-1dbjc4n.r-1d09ksm.r-18u37iz.r-1wbh5a2 > a > time')))
-
-print(element_)
+print(element_.get_attribute("title"))
 print("The time of the Tweet is: ")
 print(element_.get_attribute("textContent"))
 
