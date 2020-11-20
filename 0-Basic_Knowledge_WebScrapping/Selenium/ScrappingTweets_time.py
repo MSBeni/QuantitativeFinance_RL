@@ -27,4 +27,3 @@ element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located(
 print(element_.get_attribute("title"))
 print("The time of the Tweet is: ")
 print(element_.get_attribute("textContent"))
-
