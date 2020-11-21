@@ -1,4 +1,4 @@
-# README # 
+# Basics of Quantitative Finance and RL based Engines# 
  
 This README would normally document the project provided here. In this project, in addition to data gathering techniques, 
 the process of financial analysis in stock market and cryptocurrency network will be analyzed. 
