@@ -5,7 +5,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from datetime import datetime
+import re
 
 URL = 'https://twitter.com/search?q=(from%3AJoeBiden)%20min_retweets%3A10%20until%3A2020-11-19%20since%3A2020-11-18&' \
       'src=typed_query'
@@ -30,7 +31,11 @@ element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
                'div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a')))
 
 print("The time of the Tweet is: ")
+time_ = element_.get_attribute("title")
+time_ = re.sub('[,!@#$]', '', time_)
+time_ = time_[:7]+' '+time_[9:]
 print(element_.get_attribute("title"))
+print(datetime.strptime(time_, '%I:%M %p %b %d %Y'))
 
 
 
