@@ -24,62 +24,127 @@ tweet = {
     'replies': 0
 }
 
-element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located(
-    (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[1]/'
-               'div/div/article/div/div/div/div[2]')))
 
-print("The Tweet is: ")
-text_ = element_.get_attribute("textContent")
-print(element_.get_attribute("textContent"))
+try:
+    element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located(
+        (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/'
+                   'div[1]/div/div/article/div/div/div/div[2]')))
 
-# Extract UserName
-element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
-    (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[1]/'
-               'div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/a/div/div[2]/div/span')))
+    print("The Tweet is: ")
+    text_ = element_.get_attribute("textContent")
+    print(element_.get_attribute("textContent"))
 
-print("The Username is: ")
-user_id_ = element_.get_attribute("textContent")
-print(element_.get_attribute("textContent"))
+    # Extract UserName
+    element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/'
+                   'div[1]/div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/a/div/div[2]/div/'
+                   'span')))
 
-# Exporting the Time
-element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
-    (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[1]/'
-               'div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a')))
+    print("The Username is: ")
+    user_id_ = element_.get_attribute("textContent")
+    print(element_.get_attribute("textContent"))
 
-print("The time of the Tweet is: ")
-time_ = element_.get_attribute("title")
-# time_ = re.sub('[,!@#$]', '', time_)
-# time_ = time_[:7]+' '+time_[9:]
-# print(element_.get_attribute("title"))
-tweet_time_ = datetime.strptime(time_, '%I:%M %p · %b %d, %Y')
-print(tweet_time_)
+    # Exporting the Time
+    element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/'
+                   'div[1]/div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a')))
 
-# Exporting the retweets
-elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
-    (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/'
-                                          'div/div/section/div/div/div[1]/div/div/article/div/div/div/div[2]/div[2]/'
-                                          'div[2]/div[3]/div[2]/div/div/div[2]/span/span')))
-print("The retweets of the Tweet is: ")
-retweets_ = elements.get_attribute("textContent")
-print(elements.get_attribute("textContent"))
+    print("The time of the Tweet is: ")
+    time_ = element_.get_attribute("title")
+    # time_ = re.sub('[,!@#$]', '', time_)
+    # time_ = time_[:7]+' '+time_[9:]
+    # print(element_.get_attribute("title"))
+    tweet_time_ = datetime.strptime(time_, '%I:%M %p · %b %d, %Y')
+    print(tweet_time_)
 
-
-# Exporting the replies
-elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
-    (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[1]/'
-               'div/div/article/div/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div/div/div[2]/span/span')))
-print("The replies on the Tweet is: ")
-replies_ = elements.get_attribute("textContent")
-print(elements.get_attribute("textContent"))
+    # Exporting the retweets
+    elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/'
+                   'div[1]/div/div/article/div/div/div/div[2]/div[2]/div[2]/div[3]/div[2]/div/div/div[2]/span/span')))
+    print("The retweets of the Tweet is: ")
+    retweets_ = elements.get_attribute("textContent")
+    print(elements.get_attribute("textContent"))
 
 
-# Exporting the likes
-elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
-    (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[1]/'
-               'div/div/article/div/div/div/div[2]/div[2]/div[2]/div[3]/div[3]/div/div/div[2]/span/span')))
-print("The Likes of the Tweet is: ")
-likes_ = elements.get_attribute("textContent")
-print(elements.get_attribute("textContent"))
+    # Exporting the replies
+    elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div['
+                   '2]/div/div/section/div/div/div[1]/ '
+                   'div/div/article/div/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div/div/div[2]/span/span')))
+    print("The replies on the Tweet is: ")
+    replies_ = elements.get_attribute("textContent")
+    print(elements.get_attribute("textContent"))
+
+
+    # Exporting the likes
+    elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div['
+                   '2]/div/div/section/div/div/div[1]/ '
+                   'div/div/article/div/div/div/div[2]/div[2]/div[2]/div[3]/div[3]/div/div/div[2]/span/span')))
+    print("The Likes of the Tweet is: ")
+    likes_ = elements.get_attribute("textContent")
+    print(elements.get_attribute("textContent"))
+
+except:
+    element_ = WebDriverWait(browser, 10).until(EC.visibility_of_element_located(
+        (By.XPATH,
+         '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[7]/'
+         'div/div/article/div/div/div/div[2]')))
+
+    print("The Tweet is: ")
+    text_ = element_.get_attribute("textContent")
+    print(element_.get_attribute("textContent"))
+
+    # Extract UserName
+    element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH,
+         '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[7]/'
+         'div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/a/div/div[2]/div/span')))
+
+    print("The Username is: ")
+    user_id_ = element_.get_attribute("textContent")
+    print(element_.get_attribute("textContent"))
+
+    # Exporting the Time
+    element_ = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH,
+         '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[7]/'
+         'div/div/article/div/div/div/div[2]/div[2]/div[1]/div/div/div[1]/a')))
+
+    print("The time of the Tweet is: ")
+    time_ = element_.get_attribute("title")
+    # time_ = re.sub('[,!@#$]', '', time_)
+    # time_ = time_[:7]+' '+time_[9:]
+    # print(element_.get_attribute("title"))
+    tweet_time_ = datetime.strptime(time_, '%I:%M %p · %b %d, %Y')
+    print(tweet_time_)
+
+    # Exporting the retweets
+    elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH, '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/'
+                   'div/div/section/div/div/div[7]/div/div/article/div/div/div/div[2]/div[2]/'
+                   'div[2]/div[3]/div[2]/div/div/div[2]/span/span')))
+    print("The retweets of the Tweet is: ")
+    retweets_ = elements.get_attribute("textContent")
+    print(elements.get_attribute("textContent"))
+
+    # Exporting the replies
+    elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH,
+         '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[7]/'
+         'div/div/article/div/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div/div/div[2]/span/span')))
+    print("The replies on the Tweet is: ")
+    replies_ = elements.get_attribute("textContent")
+    print(elements.get_attribute("textContent"))
+
+    # Exporting the likes
+    elements = WebDriverWait(browser, 5).until(EC.visibility_of_element_located(
+        (By.XPATH,
+         '//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/section/div/div/div[7]/'
+         'div/div/article/div/div/div/div[2]/div[2]/div[2]/div[3]/div[3]/div/div/div[2]/span/span')))
+    print("The Likes of the Tweet is: ")
+    likes_ = elements.get_attribute("textContent")
+    print(elements.get_attribute("textContent"))
 
 
 tweet = {
