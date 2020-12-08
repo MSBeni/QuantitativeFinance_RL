@@ -34,8 +34,6 @@ for ticker in tickers:
             except:
                 continue
 
-
-
     # getting cashflow statement data from yahoo finance for the given ticker
     url = 'https://in.finance.yahoo.com/quote/' + ticker + '/cash-flow?p=' + ticker
     page = requests.get(url)
