@@ -47,8 +47,6 @@ for ticker in tickers:
             except:
                 continue
 
-
-
     # getting key statistics data from yahoo finance for the given ticker
     url = 'https://in.finance.yahoo.com/quote/' + ticker + '/key-statistics?p=' + ticker
     page = requests.get(url)
