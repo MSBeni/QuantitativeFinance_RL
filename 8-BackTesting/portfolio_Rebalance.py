@@ -98,8 +98,7 @@ def pflio(dataframe_, m, x):
     monthly_ret_df = pd.DataFrame(np.array(monthly_ret), columns=["mon_ret"])
     return monthly_ret_df
 
-
-#calculating overall strategy's KPIs
+# calculating overall strategy's KPIs
 cagr(pflio(return_df, 6, 3))
 sharpe(pflio(return_df, 6, 3), 0.025)
 max_dd(pflio(return_df, 6, 3))
