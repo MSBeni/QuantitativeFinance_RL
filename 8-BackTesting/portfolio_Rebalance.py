@@ -28,6 +28,7 @@ def sharpe(dataframe, rf):
     sr = (cagr(df) - rf)/volatility(df)
     return sr
 
+
 def max_dd(DF):
     """function to calculate max drawdown"""
     df = DF.copy()
@@ -37,6 +38,7 @@ def max_dd(DF):
     df["drawdown_pct"] = df["drawdown"]/df["cum_roll_max"]
     max_dd = df["drawdown_pct"].max()
     return max_dd
+
 
 # Download historical data (monthly) for DJI constituent stocks
 tickers = ["MMM", "AXP", "T", "BA", "CAT", "CVX", "CSCO", "KO", "XOM", "GE", "GS", "HD",
@@ -62,9 +64,10 @@ while len(tickers) != 0 and attempt <= 5:
 
 tickers = ohlc_mon.keys()  # redefine tickers variable after removing any tickers with corrupted data
 
-################################Backtesting####################################
 
-################################Backtesting####################################
+# ###############################Backtesting####################################
+
+# ###############################Backtesting####################################
 
 # calculating monthly return for each stock and consolidating return info by stock in a separate dataframe
 ohlc_dict = copy.deepcopy(ohlc_mon)
@@ -98,19 +101,21 @@ def pflio(dataframe_, m, x):
     monthly_ret_df = pd.DataFrame(np.array(monthly_ret), columns=["mon_ret"])
     return monthly_ret_df
 
+
 # calculating overall strategy's KPIs
 cagr(pflio(return_df, 6, 3))
 sharpe(pflio(return_df, 6, 3), 0.025)
 max_dd(pflio(return_df, 6, 3))
 
-#calculating KPIs for Index buy and hold strategy over the same period
+
+# calculating KPIs for Index buy and hold strategy over the same period
 DJI = pdr.get_data_yahoo("^DJI", datetime.date.today()-datetime.timedelta(1900), datetime.date.today(), interval='m')
 DJI["mon_ret"] = DJI["Adj Close"].pct_change()
 cagr(DJI)
 sharpe(DJI, 0.025)
 max_dd(DJI)
 
-#visualization
+# visualization
 fig, ax = plt.subplots()
 plt.plot((1+pflio(return_df, 6, 3)).cumprod())
 plt.plot((1+DJI["mon_ret"][2:].reset_index(drop=True)).cumprod())
