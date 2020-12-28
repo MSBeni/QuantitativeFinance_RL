@@ -10,3 +10,4 @@ end_date = dt.date.today()
 # the interval define the time interval -- here 'm' represents the month
 data = pdr.get_data_yahoo(ticker, start_date, end_date, interval='m')
 print(data)
+
